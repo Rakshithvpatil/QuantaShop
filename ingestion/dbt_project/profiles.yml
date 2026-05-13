@@ -1,0 +1,11 @@
+# ingestion/dbt_project/profiles.yml
+# ─────────────────────────────────────
+# DuckDB adapter — zero config, runs locally, no server needed
+
+swiftpulse:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "../../data/swiftpulse.duckdb"   # relative to dbt project root
+      threads: 4

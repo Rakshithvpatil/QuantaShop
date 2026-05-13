@@ -1,0 +1,62 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────
+# SwiftPulse Infrastructure
+# Starts: Kafka, Zookeeper, MQTT broker, Prometheus, Grafana
+# Run: docker compose -f infra/docker-compose.yml up -d
+# ─────────────────────────────────────────────────────────────
+
+services:
+
+  # ── Kafka message bus ────────────────────────────────────────
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: swiftpulse-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: swiftpulse-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+  # ── MQTT broker (wearable device telemetry) ──────────────────
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: swiftpulse-mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  # ── Prometheus metrics scraper ───────────────────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: swiftpulse-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  # ── Grafana dashboards ───────────────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    container_name: swiftpulse-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: swiftpulse
+    depends_on:
+      - prometheus

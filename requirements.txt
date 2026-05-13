@@ -1,0 +1,50 @@
+# ── Core API & Web ─────────────────────────────────────────────────────────────
+fastapi
+uvicorn[standard]
+pydantic
+websockets
+
+# ── Data Layer ──────────────────────────────────────────────────────────────────
+pandas
+polars
+duckdb>=0.9.0
+dbt-duckdb>=1.8.0
+pyarrow
+
+# ── Streaming / Messaging ────────────────────────────────────────────────────────
+kafka-python
+paho-mqtt
+
+# ── ML / Deep Learning ──────────────────────────────────────────────────────────
+torch
+transformers
+datasets
+accelerate
+chronos-forecasting
+scikit-learn
+numpy
+
+# ── RAG Stack ───────────────────────────────────────────────────────────────────
+langchain
+langchain-community
+langchain-huggingface
+chromadb
+sentence-transformers
+
+# ── Experiment Tracking ──────────────────────────────────────────────────────────
+mlflow
+
+# ── Dashboards ──────────────────────────────────────────────────────────────────
+streamlit
+gradio
+plotly
+
+# ── Monitoring ──────────────────────────────────────────────────────────────────
+prometheus-client
+
+# ── Utilities ───────────────────────────────────────────────────────────────────
+python-dotenv
+httpx
+pytest
+pytest-asyncio
+requests

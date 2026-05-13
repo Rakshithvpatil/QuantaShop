@@ -1,0 +1,17 @@
+# ingestion/dbt_project/dbt_project.yml
+# ─────────────────────────────────────
+# dbt project config for SwiftPulse feature engineering
+# Run: cd ingestion/dbt_project && dbt run
+
+name: swiftpulse
+version: "1.0.0"
+config-version: 2
+
+profile: swiftpulse       # matches profiles.yml below
+
+model-paths: ["models"]
+seed-paths:  ["seeds"]
+
+models:
+  swiftpulse:
+    +materialized: table   # persist all models as DuckDB tables
