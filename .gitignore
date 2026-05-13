@@ -1,2 +1,14 @@
 venv/
-venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+data/
+*.duckdb
+*.pt
+chroma_db/
+.DS_Store
+.python-version
+api/__pycache__/
+models/__pycache__/
+ingestion/__pycache__/
